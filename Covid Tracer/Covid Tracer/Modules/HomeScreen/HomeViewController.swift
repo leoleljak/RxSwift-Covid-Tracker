@@ -16,6 +16,10 @@ final class HomeViewController: UIViewController {
 
     // MARK: - IBOutlets -
     @IBOutlet weak var covidCollectionView: UICollectionView!
+    @IBOutlet weak var searchButton: UIBarButtonItem!
+    @IBOutlet weak var currentCountryButton: UIBarButtonItem!
+    
+    
     
     // MARK: - Public properties -
 
@@ -61,16 +65,27 @@ extension HomeViewController: HomeViewInterface {
 private extension HomeViewController {
 
     func setupView() {
-        let output = Home.ViewOutput()
+        let output = Home.ViewOutput(searchHandler: searchButton.rx.tap.asSignal())
         
         let input = presenter.configure(with: output)
-        input.headerData.drive {
-            self.headerData = $0
-        }.disposed(by: disposeBag)
+        input.headerData
+            .drive {
+                self.headerData = $0
+            }
+            .disposed(by: disposeBag)
         
-        input.cellItems.debug().drive {
-            self.cellItems = $0
-        }.disposed(by: disposeBag)
+        input.cellItems
+            .drive {
+                self.cellItems = $0
+            }
+            .disposed(by: disposeBag)
+        
+        input
+            .currentCountry
+            .compactMap { $0 }
+            .drive(currentCountryButton.rx.title)
+            .disposed(by: disposeBag)
+        
     }
 
 }

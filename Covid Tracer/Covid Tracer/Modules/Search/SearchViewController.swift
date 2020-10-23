@@ -42,8 +42,10 @@ extension SearchViewController: SearchViewInterface {
 private extension SearchViewController {
 
     func setupView() {
-        let output = Search.ViewOutput()
-
+        
+        
+        let output = Search.ViewOutput(searchText: searchTextField.rx.text.asDriver())
+        
         let input = presenter.configure(with: output)
     }
 

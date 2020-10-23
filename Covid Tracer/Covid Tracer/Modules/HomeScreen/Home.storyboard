@@ -218,6 +218,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="covidCollectionView" destination="CdR-oe-WII" id="6wl-Ub-ASB"/>
+                        <outlet property="currentCountryButton" destination="cjf-KY-0Dl" id="0xZ-8f-Blw"/>
+                        <outlet property="searchButton" destination="a2U-Mh-nzj" id="WUE-C0-biM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rle-ol-2Ax" userLabel="First Responder" sceneMemberID="firstResponder"/>

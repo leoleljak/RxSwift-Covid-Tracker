@@ -19,8 +19,10 @@ final class HomePresenter {
     private unowned let view: HomeViewInterface
     private let interactor: HomeInteractorInterface
     private let wireframe: HomeWireframeInterface
+    
+    private let disposeBag = DisposeBag()
 
-    private let searchedCountry = BehaviorRelay<String>(value: "Croatia")
+    private let searchedCountry = BehaviorRelay<String?>(value: "Croatia")
     
     // MARK: - Lifecycle -
 
@@ -37,19 +39,22 @@ extension HomePresenter: HomePresenterInterface {
 
     func configure(with output: Home.ViewOutput) -> Home.ViewInput {
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.searchedCountry.accept("Germany")
-        }
+        output
+            .searchHandler
+            .emit { _ in
+                self.wireframe.navigate(to: .search(relay: self.searchedCountry))
+            }
+            .disposed(by: disposeBag)
         
-        let covidCases = searchedCountry.debug("covidCases")
+        let covidCases = searchedCountry
             .flatMapLatest { [unowned self] in
-                self.interactor.getCovidData(for: $0).asDriver(onErrorDriveWith: .never())
+                self.interactor.getCovidData(for: $0!).asDriver(onErrorDriveWith: .never())
         }
         
         let formattedHeader = formatHeaderData(with: covidCases.asDriver(onErrorDriveWith: .never()))
         let cellItems = getStatisticCellItems(with: covidCases.asDriver(onErrorDriveWith: .never()))
         
-        return Home.ViewInput(headerData: formattedHeader, cellItems: cellItems)
+        return Home.ViewInput(headerData: formattedHeader, cellItems: cellItems, currentCountry: searchedCountry.asDriver())
     }
 }
 

@@ -19,13 +19,13 @@ final class SearchPresenter {
     private unowned let view: SearchViewInterface
     private let interactor: SearchInteractorInterface
     private let wireframe: SearchWireframeInterface
-
+    private let disposeBag = DisposeBag()
     
-    private let searchRelay: BehaviorRelay<String>
+    private let searchRelay: BehaviorRelay<String?>
     
     // MARK: - Lifecycle -
 
-    init(view: SearchViewInterface, interactor: SearchInteractorInterface, wireframe: SearchWireframeInterface, relay: BehaviorRelay<String>) {
+    init(view: SearchViewInterface, interactor: SearchInteractorInterface, wireframe: SearchWireframeInterface, relay: BehaviorRelay<String?>) {
         self.view = view
         self.interactor = interactor
         self.wireframe = wireframe
@@ -38,6 +38,13 @@ final class SearchPresenter {
 extension SearchPresenter: SearchPresenterInterface {
 
     func configure(with output: Search.ViewOutput) -> Search.ViewInput {
+        
+        output
+            .searchText
+            .debounce(.milliseconds(300))
+            .drive(searchRelay)
+            .disposed(by: disposeBag)
+        
         return Search.ViewInput()
     }
 

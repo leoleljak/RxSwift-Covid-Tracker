@@ -20,7 +20,7 @@ final class SearchWireframe: BaseWireframe {
 
     // MARK: - Module setup -
 
-    init(searchRelay: BehaviorRelay<String>) {
+    init(searchRelay: BehaviorRelay<String?>) {
         let moduleViewController = storyboard.instantiateViewController(ofType: SearchViewController.self)
         super.init(viewController: moduleViewController)
 

@@ -13,7 +13,7 @@ import RxSwift
 import RxCocoa
 
 enum HomeNavigationOption {
-    case search(relay: BehaviorRelay<String>)
+    case search(relay: BehaviorRelay<String?>)
 }
 
 protocol HomeWireframeInterface: WireframeInterface {
@@ -34,11 +34,13 @@ protocol HomeInteractorInterface: InteractorInterface {
 enum Home {
 
     struct ViewOutput {
+        let searchHandler: Signal<()>
     }
 
     struct ViewInput {
         let headerData: Driver<HeaderData>
         let cellItems: Driver<[StatisticTableCellItem]>
+        let currentCountry: Driver<String?>
     }
 
 }

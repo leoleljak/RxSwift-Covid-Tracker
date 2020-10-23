@@ -38,7 +38,8 @@ extension HomeWireframe: HomeWireframeInterface {
         switch screen {
         case .search(relay: let relay):
             let searchWireframe = SearchWireframe(searchRelay: relay)
-            navigationController?.pushWireframe(searchWireframe)
+            searchWireframe.viewController.modalPresentationStyle = .popover
+            viewController.presentWireframe(searchWireframe, animated: true, completion: nil)
         }
     }
     

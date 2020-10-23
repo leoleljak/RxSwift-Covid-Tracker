@@ -73,8 +73,13 @@ class StatisticCollectionViewCell: UICollectionViewCell {
             percentageChangeLabel.text = "\(Int(percentage))%"
         case .recovered:
             titleCellLabel.text = "Recovered"
-            let percentage = ((Float(todayCase.recovered) / Float(yesterdayCase.recovered) - 1) * 100)
             
+            var percentage: Float = 0.0
+            if todayCase.recovered == 0 && yesterdayCase.recovered == 0 {
+                percentage = 0.0
+            } else {
+                percentage = ((Float(todayCase.recovered) / Float(yesterdayCase.recovered) - 1) * 100)
+            }
             trendImageView.image = percentage < 0 ? TrendImage.downTrend : TrendImage.upTrend
             
             trendImageView.tintColor = percentage > 0 ? .systemGreen : .systemPink
