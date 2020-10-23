@@ -65,12 +65,10 @@ private extension HomePresenter {
         let dummyHeaderData = HeaderData.init(activeCases: "greska", deathCases: "greska", newCases: "greska")
         
         return cases.map { cases -> HeaderData in
-            let countCases = cases.count - 2
-            
             guard let lastCase = cases.last else { return dummyHeaderData }
             let activeCases = "\(lastCase.active)"
-            let confirmed = "\(lastCase.confirmed - cases[countCases].confirmed)"
-            let deathCases = "\(lastCase.deaths - cases[countCases].deaths)"
+            let confirmed = "\(lastCase.confirmed)"
+            let deathCases = "\(lastCase.deaths)"
             
             return HeaderData(activeCases: activeCases, deathCases: deathCases, newCases: confirmed)
         }.asDriver()
