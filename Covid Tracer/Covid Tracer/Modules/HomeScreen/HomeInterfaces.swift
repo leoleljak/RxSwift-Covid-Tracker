@@ -34,7 +34,7 @@ protocol HomeInteractorInterface: InteractorInterface {
 enum Home {
 
     struct ViewOutput {
-        let searchHandler: Signal<()>
+        let searchHandler: Signal<Void>
     }
 
     struct ViewInput {

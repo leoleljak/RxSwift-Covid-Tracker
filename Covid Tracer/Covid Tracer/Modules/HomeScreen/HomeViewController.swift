@@ -19,8 +19,6 @@ final class HomeViewController: UIViewController {
     @IBOutlet weak var searchButton: UIBarButtonItem!
     @IBOutlet weak var currentCountryButton: UIBarButtonItem!
     
-    
-    
     // MARK: - Public properties -
 
     var presenter: HomePresenterInterface!
@@ -38,7 +36,6 @@ final class HomeViewController: UIViewController {
             covidCollectionView.reloadData()
         }
     }
-    
     
     private let disposeBag = DisposeBag()
 
@@ -67,25 +64,22 @@ private extension HomeViewController {
     func setupView() {
         let output = Home.ViewOutput(searchHandler: searchButton.rx.tap.asSignal())
         
+        
         let input = presenter.configure(with: output)
         input.headerData
-            .drive {
-                self.headerData = $0
-            }
+            .drive(self.rx.headerData)
             .disposed(by: disposeBag)
         
         input.cellItems
-            .drive {
-                self.cellItems = $0
-            }
+            .drive(self.rx.cellItems)
             .disposed(by: disposeBag)
         
         input
             .currentCountry
             .compactMap { $0 }
+            .map { $0.capitalized }
             .drive(currentCountryButton.rx.title)
             .disposed(by: disposeBag)
-        
     }
 
 }
@@ -102,7 +96,7 @@ extension HomeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "CovidHeaderNew", for: indexPath) as! HeaderCollectionReusableView
+        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.reuseID, for: indexPath) as! HeaderCollectionReusableView
         
         headerView.configure(with: headerData)
         return headerView

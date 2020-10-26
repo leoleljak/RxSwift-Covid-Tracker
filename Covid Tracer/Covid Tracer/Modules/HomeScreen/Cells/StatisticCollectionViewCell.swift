@@ -37,58 +37,48 @@ class StatisticCollectionViewCell: UICollectionViewCell {
         guard let todayCase = cases.last else { return }
         let yesterdayCase = cases[cases.count - 2]
         
-        
         switch model.cellType {
         
         case .active:
             titleCellLabel.text = "Active"
-            let percentage = ((Float(todayCase.active) / Float(yesterdayCase.active) - 1) * 100)
-            
-            trendImageView.image = percentage < 0 ? TrendImage.downTrend : TrendImage.upTrend
-            trendImageView.tintColor = percentage < 0 ? .systemGreen : .systemPink
-            
-            todayCasesLabel.text = "\(todayCase.active)"
-            yesterdayCasesLabel.text = "\(yesterdayCase.active)"
-            percentageChangeLabel.text = "\(Int(percentage))%"
+            setCellData(todayCase: todayCase.active, yesterdayCase: yesterdayCase.active)
             
         case .new:
             titleCellLabel.text = "New"
-            let percentage = ((Float(todayCase.confirmed) / Float(yesterdayCase.confirmed) - 1) * 100)
+            setCellData(todayCase: todayCase.confirmed, yesterdayCase: yesterdayCase.confirmed)
             
-            trendImageView.image = percentage < 0 ? TrendImage.downTrend : TrendImage.upTrend
-            trendImageView.tintColor = percentage < 0 ? .systemGreen : .systemPink
-            
-            todayCasesLabel.text = "\(todayCase.confirmed)"
-            yesterdayCasesLabel.text = "\(yesterdayCase.confirmed)"
-            percentageChangeLabel.text = "\(Int(percentage))%"
         case .death:
             titleCellLabel.text = "Death"
-            let percentage = ((Float(todayCase.deaths) / Float(yesterdayCase.deaths) - 1) * 100)
+            setCellData(todayCase: todayCase.deaths, yesterdayCase: yesterdayCase.deaths)
             
-            trendImageView.image = percentage < 0 ? TrendImage.downTrend : TrendImage.upTrend
-            trendImageView.tintColor = percentage < 0 ? .systemGreen : .systemPink
-            
-            todayCasesLabel.text = "\(todayCase.deaths)"
-            yesterdayCasesLabel.text = "\(yesterdayCase.deaths)"
-            percentageChangeLabel.text = "\(Int(percentage))%"
         case .recovered:
             titleCellLabel.text = "Recovered"
-            
-            var percentage: Float = 0.0
-            if todayCase.recovered == 0 && yesterdayCase.recovered == 0 {
-                percentage = 0.0
-            } else {
-                percentage = ((Float(todayCase.recovered) / Float(yesterdayCase.recovered) - 1) * 100)
-            }
-            trendImageView.image = percentage < 0 ? TrendImage.downTrend : TrendImage.upTrend
-            
-            trendImageView.tintColor = percentage > 0 ? .systemGreen : .systemPink
-            
-            todayCasesLabel.text = "\(todayCase.recovered)"
-            yesterdayCasesLabel.text = "\(yesterdayCase.recovered)"
-            percentageChangeLabel.text = "\(Int(percentage))%"
+            setCellData(todayCase: todayCase.recovered, yesterdayCase: yesterdayCase.recovered, reverseTrendImage: true)
         }
         
     }
     
+}
+
+private extension StatisticCollectionViewCell {
+    func setCellData(todayCase: Int, yesterdayCase: Int, reverseTrendImage: Bool = false) {
+        var percentage: Float = 0.0
+        if todayCase == 0 && yesterdayCase == 0 {
+            percentage = 0.0
+        } else {
+            percentage = ((Float(todayCase) / Float(yesterdayCase) - 1) * 100)
+        }
+        
+        trendImageView.image = percentage < 0 ? TrendImage.downTrend : TrendImage.upTrend
+        
+        if reverseTrendImage {
+            trendImageView.tintColor = percentage < 0 ? .systemPink : .systemGreen
+        } else {
+            trendImageView.tintColor = percentage < 0 ? .systemGreen : .systemPink
+        }
+        
+        todayCasesLabel.text = "\(todayCase)"
+        yesterdayCasesLabel.text = "\(yesterdayCase)"
+        percentageChangeLabel.text = "\(Int(percentage))%"
+    }
 }

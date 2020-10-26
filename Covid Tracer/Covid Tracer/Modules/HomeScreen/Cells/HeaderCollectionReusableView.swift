@@ -9,6 +9,8 @@ import UIKit
 
 class HeaderCollectionReusableView: UICollectionReusableView {
 
+    static let reuseID = "CovidHeaderNew"
+    
     // MARK: - IBOutlets -
     @IBOutlet weak var newCasesLabel: UILabel!
     @IBOutlet weak var activeCasesLabel: UILabel!

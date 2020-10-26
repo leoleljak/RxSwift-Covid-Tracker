@@ -39,17 +39,13 @@ extension HomePresenter: HomePresenterInterface {
 
     func configure(with output: Home.ViewOutput) -> Home.ViewInput {
         
-        output
-            .searchHandler
-            .emit { _ in
-                self.wireframe.navigate(to: .search(relay: self.searchedCountry))
-            }
-            .disposed(by: disposeBag)
+        
+        handleSearchButtonTap(for: output.searchHandler)
         
         let covidCases = searchedCountry
             .flatMapLatest { [unowned self] in
                 self.interactor.getCovidData(for: $0!).asDriver(onErrorDriveWith: .never())
-        }
+            }
         
         let formattedHeader = formatHeaderData(with: covidCases.asDriver(onErrorDriveWith: .never()))
         let cellItems = getStatisticCellItems(with: covidCases.asDriver(onErrorDriveWith: .never()))
@@ -61,14 +57,24 @@ extension HomePresenter: HomePresenterInterface {
 
 private extension HomePresenter {
     
+    func handleSearchButtonTap(for button: Signal<Void>) {
+        button
+            .emit { _ in
+                self.wireframe.navigate(to: .search(relay: self.searchedCountry))
+            }
+            .disposed(by: disposeBag)
+    }
+    
     func formatHeaderData(with cases: Driver<[CovidData]>) -> Driver<HeaderData> {
-        let dummyHeaderData = HeaderData.init(activeCases: "greska", deathCases: "greska", newCases: "greska")
+        let dummyHeaderData = HeaderData.init(activeCases: "n/a", deathCases: "n/a", newCases: "n/a")
         
         return cases.map { cases -> HeaderData in
             guard let lastCase = cases.last else { return dummyHeaderData }
+            let yesterdayCase = cases[cases.count - 2]
+            
             let activeCases = "\(lastCase.active)"
-            let confirmed = "\(lastCase.confirmed)"
-            let deathCases = "\(lastCase.deaths)"
+            let confirmed = "\(lastCase.confirmed - yesterdayCase.confirmed)"
+            let deathCases = "\(lastCase.deaths - yesterdayCase.deaths)"
             
             return HeaderData(activeCases: activeCases, deathCases: deathCases, newCases: confirmed)
         }.asDriver()

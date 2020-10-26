@@ -42,6 +42,7 @@
 		28F7130225431AA300806D3A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F712FC25431AA300806D3A /* SearchViewController.swift */; };
 		28F7130325431AA300806D3A /* SearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F712FD25431AA300806D3A /* SearchInteractor.swift */; };
 		28F7130425431AA300806D3A /* SearchWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F712FE25431AA300806D3A /* SearchWireframe.swift */; };
+		28F7131A2546BC7D00806D3A /* ReactiveExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F713192546BC7D00806D3A /* ReactiveExt.swift */; };
 		6D162401E1232B40F30DF756 /* Pods_Covid_Tracer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2893EBE0FB77A8B46F2C7E8 /* Pods_Covid_Tracer.framework */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,7 @@
 		28F712FC25431AA300806D3A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		28F712FD25431AA300806D3A /* SearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInteractor.swift; sourceTree = "<group>"; };
 		28F712FE25431AA300806D3A /* SearchWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWireframe.swift; sourceTree = "<group>"; };
+		28F713192546BC7D00806D3A /* ReactiveExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactiveExt.swift; sourceTree = "<group>"; };
 		9B1FDE1B9E78A4ED20EEFB4D /* Pods-Covid Tracer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Covid Tracer.debug.xcconfig"; path = "Target Support Files/Pods-Covid Tracer/Pods-Covid Tracer.debug.xcconfig"; sourceTree = "<group>"; };
 		DF774985725DAF637ABD2B65 /* Pods-Covid Tracer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Covid Tracer.release.xcconfig"; path = "Target Support Files/Pods-Covid Tracer/Pods-Covid Tracer.release.xcconfig"; sourceTree = "<group>"; };
 		F2893EBE0FB77A8B46F2C7E8 /* Pods_Covid_Tracer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Covid_Tracer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,8 +159,8 @@
 		2867D7D02542C4F80012D0F7 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				28F712F825431A8600806D3A /* Search */,
 				2867D7E92542C6BE0012D0F7 /* HomeScreen */,
+				28F712F825431A8600806D3A /* Search */,
 				2867D7BE2542C4620012D0F7 /* Main.storyboard */,
 				2867D7BC2542C4620012D0F7 /* ViewController.swift */,
 			);
@@ -248,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				2867D81A2542DC800012D0F7 /* UIViewExtension.swift */,
+				28F713192546BC7D00806D3A /* ReactiveExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -437,6 +440,7 @@
 				28F7130025431AA300806D3A /* SearchInterfaces.swift in Sources */,
 				2867D8242542E8200012D0F7 /* CovidData.swift in Sources */,
 				2867D7FA2542C8560012D0F7 /* HomeNavigationController.swift in Sources */,
+				28F7131A2546BC7D00806D3A /* ReactiveExt.swift in Sources */,
 				2867D7DA2542C5160012D0F7 /* ViewInterface.swift in Sources */,
 				2867D7BB2542C4620012D0F7 /* SceneDelegate.swift in Sources */,
 				28F7130425431AA300806D3A /* SearchWireframe.swift in Sources */,
