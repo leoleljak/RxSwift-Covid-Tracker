@@ -43,13 +43,9 @@ final class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        configureCollectionView()
         setupView()
-        
-        covidCollectionView.setCollectionViewLayout(UIHelper.createTwoColumnFlowLayout(for: view), animated: true, completion: nil)
-        covidCollectionView.register(UINib(nibName: "HeaderCollectionReusableView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "CovidHeaderNew")
-        covidCollectionView.dataSource = self
-        
-        
     }
 
 }
@@ -63,9 +59,8 @@ private extension HomeViewController {
 
     func setupView() {
         let output = Home.ViewOutput(searchHandler: searchButton.rx.tap.asSignal())
-        
-        
         let input = presenter.configure(with: output)
+        
         input.headerData
             .drive(self.rx.headerData)
             .disposed(by: disposeBag)
@@ -81,10 +76,16 @@ private extension HomeViewController {
             .drive(currentCountryButton.rx.title)
             .disposed(by: disposeBag)
     }
+    
+    func configureCollectionView() {
+        covidCollectionView.setCollectionViewLayout(UIHelper.createTwoColumnFlowLayout(for: view), animated: true, completion: nil)
+        covidCollectionView.register(UINib(nibName: "HeaderCollectionReusableView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "CovidHeaderNew")
+        covidCollectionView.dataSource = self
+    }
 
 }
 
-// MARK: - TableView Delegate -
+// MARK: - CollectionView Delegate -
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         cellItems.count
